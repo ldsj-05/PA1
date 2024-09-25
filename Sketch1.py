@@ -282,10 +282,10 @@ class Sketch(CanvasBase):
         dy = abs(y1 - y0)
         sx = 1 if x0 < x1 else -1
         sy = 1 if y0 < y1 else -1
-        err = dx - dy
+        error1 = dx - dy
 
         while True:
-            # Calculate interpolation factor for color if smoothing is enabled
+            # Calculate interpolation for color if smoothing is on
             if doSmooth:
                 t = ((x0 - p1.coords[0]) / (p2.coords[0] - p1.coords[0])) if p1.coords[0] != p2.coords[0] else ((y0 - p1.coords[1]) / (p2.coords[1] - p1.coords[1]))
                 color = ColorType(
@@ -302,12 +302,12 @@ class Sketch(CanvasBase):
             if x0 == x1 and y0 == y1:
                 break
 
-            e2 = 2 * err
-            if e2 > -dy:
-                err -= dy
+            error2 = 2 * error1
+            if error2 > -dy:
+                error1 -= dy
                 x0 += sx
-            if e2 < dx:
-                err += dx
+            if error2 < dx:
+                error1 += dx
                 y0 += sy
         ##### TODO 1: Use Bresenham algorithm to draw a line between p1 and p2 on buff.
         # Requirements:
